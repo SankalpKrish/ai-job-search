@@ -1,6 +1,5 @@
 ---
 name: jobindex-search
-version: 1.0.0
 description: >
   Make sure to use this skill whenever the user wants to search for jobs in Denmark,
   find Danish job listings, look up a specific job posting, or asks anything about
@@ -16,8 +15,8 @@ description: >
   jobs aarhus, jobs copenhagen, jobs odense, jobs aalborg, job openings denmark,
   hiring denmark, job listings denmark, python jobs denmark, grafisk designer job,
   data engineer job, softwareudvikler job, full stack developer job danmark.
-context: fork
-allowed-tools: Bash(bun run skills/jobindex-search/cli/src/cli.ts *)
+metadata:
+  version: 1.0.0
 ---
 
 # Jobindex Search Skill
