@@ -1,3 +1,7 @@
+---
+description: Expand candidate profile notes (publications, talks, projects, references, interests) via interactive interview
+---
+
 # /expand - Competency Expansion from Documents and Online Presence
 
 You are enriching the candidate profile by discovering competencies hidden in documents and public online presence. This command is additive only — it never modifies existing profile content, only extends it.
@@ -10,8 +14,8 @@ Follow these steps **exactly in order**. Do not skip steps.
 
 Read these two files in parallel before doing anything else. You must know what is already there so you do not propose duplicates.
 
-- `.claude/skills/job-application-assistant/01-candidate-profile.md`
-- `.claude/skills/job-application-assistant/02-behavioral-profile.md`
+- `.opencode/skills/job-application-assistant/01-candidate-profile.md`
+- `.opencode/skills/job-application-assistant/02-behavioral-profile.md`
 
 Hold this content in context throughout the command. Do not re-read these files later.
 
