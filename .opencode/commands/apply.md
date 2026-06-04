@@ -1,3 +1,7 @@
+---
+description: Apply to a job posting — evaluate fit, draft CV and cover letter, run reviewer, and revise
+---
+
 # /apply - Drafter-Reviewer Job Application Workflow
 
 You are orchestrating a two-agent job application workflow. The job posting is provided below as `$ARGUMENTS` (either a URL or pasted text).
@@ -24,8 +28,8 @@ Follow these steps **exactly in order**. Do not skip steps.
 ## Step 1: DRAFTER - Evaluate Fit
 
 Read the evaluation framework:
-- `.claude/skills/job-application-assistant/04-job-evaluation.md`
-- `.claude/skills/job-application-assistant/01-candidate-profile.md`
+- `.opencode/skills/job-application-assistant/04-job-evaluation.md`
+- `.opencode/skills/job-application-assistant/01-candidate-profile.md`
 
 Using the framework from `04-job-evaluation.md`, evaluate the job posting against the candidate's profile. If the salary lookup tool is configured, run:
 
@@ -55,9 +59,9 @@ After presenting the evaluation, ask the user:
 You already have `01-candidate-profile.md` and `04-job-evaluation.md` in context from Step 1. **Do not re-read them.**
 
 Read only the reference files you do not yet have:
-- `.claude/skills/job-application-assistant/03-writing-style.md`
-- `.claude/skills/job-application-assistant/05-cv-templates.md`
-- `.claude/skills/job-application-assistant/06-cover-letter-templates.md`
+- `.opencode/skills/job-application-assistant/03-writing-style.md`
+- `.opencode/skills/job-application-assistant/05-cv-templates.md`
+- `.opencode/skills/job-application-assistant/06-cover-letter-templates.md`
 
 Also read the most recent existing CV and cover letter files for concrete structural reference (one of each is enough):
 - Read any existing `cv/main_*.tex` file as a LaTeX template reference
@@ -77,7 +81,7 @@ Also read the most recent existing CV and cover letter files for concrete struct
 - Tailor the opening paragraph to the specific role and company
 - Address to a named person if available in the posting, otherwise "Dear Hiring Manager" (or equivalent in posting language)
 - Keep to approximately one page
-- Any mention of agentic coding or AI tooling must reference **Claude Code** by name
+- Any mention of agentic coding or AI tooling must reference **opencode** by name
 
 Write both files to disk. Keep the exact text of both drafts in working memory — you will pass them inline to the reviewer in Step 3 and revise them in Step 4 without re-reading.
 
@@ -85,33 +89,20 @@ Write both files to disk. Keep the exact text of both drafts in working memory �
 
 ## Step 3: REVIEWER - Research & Critique
 
-Use the **Agent tool** to spawn a `general-purpose` reviewer agent. The reviewer gets a fresh context, so pass the drafts **inline in the prompt** below (do not make the reviewer Read them). Scope the reviewer's file reads to content-critique essentials only — the reviewer does not need the LaTeX template files (`05`, `06`) to critique content, since those govern structural/LaTeX concerns the drafter already applied.
+Invoke the `job-reviewer` subagent via `@job-reviewer`. The subagent's persona and task definition live in `.opencode/agents/job-reviewer.md`; you only need to pass the company, role, drafts, and job posting inline. The reviewer gets a fresh context, so pass the drafts **inline in the prompt** below (do not make the reviewer Read them). Scope the reviewer's file reads to content-critique essentials only — the reviewer does not need the LaTeX template files (`05`, `06`) to critique content, since those govern structural/LaTeX concerns the drafter already applied.
 
 Replace `<COMPANY>`, `<ROLE>`, `<INSERT_JOB_POSTING_TEXT_HERE>`, `<INSERT_CV_DRAFT_HERE>`, and `<INSERT_COVER_LETTER_DRAFT_HERE>` with actual values before dispatching.
 
-```
-You are a hiring manager proxy reviewing a job application. Your job is to make the application as targeted and compelling as possible.
+@job-reviewer
 
-## Your Tasks
+Review the following application:
 
-### 1. Research the Company
-Use WebSearch and WebFetch to research:
-- The company's website, mission, and recent news
-- The specific department or team (if mentioned in the posting)
-- Any recent projects, press releases, or strategic initiatives relevant to the role
-- Company culture and values
+- Company: <COMPANY>
+- Role: <ROLE>
+- CV draft path: `cv/main_<COMPANY>.tex`
+- Cover letter draft path: `cover_letters/cover_<COMPANY>_<ROLE>.tex`
 
-### 2. Read Reference Materials (content-critique only)
-Read these four files — and only these — to ground your critique:
-- `.claude/skills/job-application-assistant/01-candidate-profile.md`
-- `.claude/skills/job-application-assistant/02-behavioral-profile.md` — use this specifically to check whether the cover letter's voice matches the candidate's natural register. A "Collaborator" PI profile, for example, should not be given a combative, solo-hero tone; a "Persuader" profile should not be given over-hedged, apologetic phrasing.
-- `.claude/skills/job-application-assistant/03-writing-style.md`
-- `.claude/skills/job-application-assistant/04-job-evaluation.md`
-
-Do NOT read `05-cv-templates.md` or `06-cover-letter-templates.md` — those govern LaTeX structure the drafter already applied and are not needed for content critique.
-
-### 3. Drafts to Review
-Both drafts are provided inline below. Do NOT use the Read tool on the draft files — use these exact texts.
+Both drafts are inline below. Do NOT use the Read tool on the draft files — use these exact texts.
 
 <CV_DRAFT file="cv/main_<COMPANY>.tex">
 <INSERT_CV_DRAFT_HERE>
@@ -121,40 +112,13 @@ Both drafts are provided inline below. Do NOT use the Read tool on the draft fil
 <INSERT_COVER_LETTER_DRAFT_HERE>
 </COVER_LETTER_DRAFT>
 
-### 4. Job Posting
+Job posting:
+
 <JOB_POSTING>
 <INSERT_JOB_POSTING_TEXT_HERE>
 </JOB_POSTING>
 
-### 5. Produce Feedback
-
-Return your feedback in **two parts**:
-
-**Part A — Structured edits (preferred format whenever possible):**
-A JSON array of concrete edits the drafter can apply directly without re-reading the files. Each edit is an object:
-```json
-{
-  "file": "cv/main_<COMPANY>.tex" | "cover_letters/cover_<COMPANY>_<ROLE>.tex",
-  "old_string": "<exact text currently in the draft>",
-  "new_string": "<replacement text>",
-  "reason": "<one-line rationale: keyword match / company angle / reframing / style>"
-}
-```
-Only use this format when you can quote the exact `old_string` from the drafts above. Make `old_string` unique — include enough surrounding context so it matches exactly once per file.
-
-**Part B — Narrative suggestions (for judgment calls that are not mechanical edits):**
-Prose suggestions grouped by category. Produce each category even if your finding is "no issues" — silence on a category can be mistaken for skipping it.
-- **Missed keywords/requirements** — what to add and roughly where, if it cannot be expressed as a clean string replacement
-- **Company/department-specific angles** — connections between experience and the company's strategic priorities, based on your research
-- **Action-oriented reframing** — identify passive, generic, or low-energy statements and suggest action-oriented rewrites. Use this category especially for structural weakness that doesn't fit a single-sentence swap (e.g., "the whole opening paragraph reads as passive — restructure around your single strongest match to the posting").
-- **Tone and style issues** — check against `03-writing-style.md` AND `02-behavioral-profile.md`. Flag any issues with tone, formality, or voice (cliches, hedging, over-humility, inconsistent register), and specifically flag any mismatch between the letter's voice and the candidate's natural register as described in the behavioral profile.
-
-**CRITICAL RULE:** All suggestions must be grounded in actual profile data. Do NOT suggest fabricating skills, experience, or achievements. If a requirement is a gap, say so honestly and suggest how to frame adjacent experience instead.
-
-Do **not** run a verification checklist — the drafter will do that in the final step. Focus on content critique.
-
-Return Part A and Part B together as a single structured message.
-```
+Return Part A (structured edits JSON) and Part B (narrative suggestions) together as a single structured message.
 
 ---
 
@@ -226,10 +190,10 @@ After the final clean compile, delete the `.aux`, `.log`, `.out` files (keep the
 
 ## Step 6: Present Final Output
 
-Run the full verification checklist from `CLAUDE.md` now — this is the **only** verification pass in the workflow. Re-read both files once here to verify final state on disk matches your mental model after the Step 4 and Step 5 edits.
+Run the full verification checklist from `AGENTS.md` now — this is the **only** verification pass in the workflow. Re-read both files once here to verify final state on disk matches your mental model after the Step 4 and Step 5 edits.
 
 ### Verification Checklist
-Report pass/fail for each item in the CLAUDE.md verification checklist (factual accuracy, targeting, consistency, quality).
+Report pass/fail for each item in the AGENTS.md verification checklist (factual accuracy, targeting, consistency, quality).
 
 ### Key Tailoring Decisions
 Summarize 3-5 key decisions made to tailor the application:
