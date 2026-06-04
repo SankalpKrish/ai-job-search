@@ -39,9 +39,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Memory files (Claude Code user-specific)
-.claude/projects/
-
 # Skills lock (auto-generated)
 skills-lock.json
 
@@ -64,6 +61,3 @@ job_search_tracker.csv
 
 # Upskill reports (personal output)
 upskill/*.md
-
-# Agent usage logs
-.agents/
