@@ -1,0 +1,28 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "job-application-assistant": "allow",
+      "job-scraper": "allow",
+      "upskill": "allow",
+      "jobbank-search": "allow",
+      "jobdanmark-search": "allow",
+      "jobindex-search": "allow",
+      "jobnet-search": "allow"
+    },
+    "bash": {
+      "python *": "allow",
+      "python3 *": "allow",
+      "curl *": "allow",
+      "bun *": "allow",
+      "lualatex *": "allow",
+      "xelatex *": "allow",
+      "git *": "allow",
+      "gh *": "ask",
+      "gemini *": "ask",
+      "rm *": "ask",
+      "*": "ask"
+    }
+  }
+}
