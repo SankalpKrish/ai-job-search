@@ -47,10 +47,10 @@ cd ai-job-search
 ### 2. Install job search tools
 
 ```bash
-cd .agents/skills/jobbank-search/cli && bun install && cd ../../../..
-cd .agents/skills/jobdanmark-search/cli && bun install && cd ../../../..
-cd .agents/skills/jobindex-search/cli && bun install && cd ../../../..
-cd .agents/skills/jobnet-search/cli && bun install && cd ../../../..
+cd .opencode/skills/jobbank-search/cli && bun install && cd ../../../..
+cd .opencode/skills/jobdanmark-search/cli && bun install && cd ../../../..
+cd .opencode/skills/jobindex-search/cli && bun install && cd ../../../..
+cd .opencode/skills/jobnet-search/cli && bun install && cd ../../../..
 ```
 
 ### 3. Set up your profile
@@ -102,7 +102,8 @@ ai-job-search/
 ├── opencode.json                      # opencode configuration and permissions
 ├── .opencode/
 │   ├── agents/
-│   │   └── gemini-research-expert.md  # Reviewer agent for /apply
+│   │   ├── gemini-research-expert.md  # Web research subagent (for company/role research)
+│   │   └── job-reviewer.md            # Reviewer subagent for /apply (drafter-reviewer loop)
 │   ├── commands/
 │   │   ├── apply.md                   # /apply workflow (drafter-reviewer)
 │   │   ├── setup.md                   # /setup onboarding (documents folder, CV import, or interview)
@@ -121,12 +122,13 @@ ai-job-search/
 │       │   ├── 06-cover-letter-templates.md # LaTeX cover letter templates
 │       │   └── 07-interview-prep.md   # STAR examples + interview framework
 │       ├── job-scraper/               # Job search orchestration
-│       └── upskill/                   # /upskill skill gap analysis and learning plan
-├── .agents/skills/                    # Job portal CLI tools (Denmark)
-│   ├── jobbank-search/                # Akademikernes Jobbank
-│   ├── jobdanmark-search/             # Jobdanmark.dk
-│   ├── jobindex-search/               # Jobindex.dk
-│   └── jobnet-search/                 # Jobnet.dk (government portal)
+│       │   ├── SKILL.md               # Skill definition
+│       │   └── search-queries.md      # Job search queries for /scrape
+│       ├── upskill/                   # /upskill skill gap analysis and learning plan
+│       ├── jobbank-search/            # Akademikernes Jobbank (Danish portal)
+│       ├── jobdanmark-search/         # Jobdanmark.dk
+│       ├── jobindex-search/           # Jobindex.dk
+│       └── jobnet-search/             # Jobnet.dk (government portal)
 ├── cv/
 │   └── main_example.tex               # moderncv LaTeX template
 ├── cover_letters/
@@ -179,12 +181,12 @@ If you prefer editing files directly instead of using `/setup`:
 | File | What to change |
 |------|---------------|
 | `AGENTS.md` | Your full profile (name, education, experience, skills, goals) |
-| `01-candidate-profile.md` | Structured version of your CV data |
-| `02-behavioral-profile.md` | Your behavioral assessment or self-assessment |
-| `04-job-evaluation.md` | Skill match areas, career goals, motivation filters |
-| `05-cv-templates.md` | Profile statement templates for different role types |
-| `07-interview-prep.md` | Your STAR examples from actual experience |
-| `search-queries.md` | Job search queries for your skills and location |
+| `.opencode/skills/job-application-assistant/01-candidate-profile.md` | Structured version of your CV data |
+| `.opencode/skills/job-application-assistant/02-behavioral-profile.md` | Your behavioral assessment or self-assessment |
+| `.opencode/skills/job-application-assistant/04-job-evaluation.md` | Skill match areas, career goals, motivation filters |
+| `.opencode/skills/job-application-assistant/05-cv-templates.md` | Profile statement templates for different role types |
+| `.opencode/skills/job-application-assistant/07-interview-prep.md` | Your STAR examples from actual experience |
+| `.opencode/skills/job-scraper/search-queries.md` | Job search queries for your skills and location |
 
 ### Updating your search queries
 
@@ -202,7 +204,7 @@ The CV uses [moderncv](https://ctan.org/pkg/moderncv) (banking style). The cover
 
 ### Job search tools
 
-The four CLI tools in `.agents/skills/` are specific to the **Danish job market** (Jobbank, Jobdanmark, Jobindex, Jobnet). They demonstrate the pattern for building job portal integrations. If you're in a different country, you can build equivalent tools for your local job portals using the same structure.
+The four CLI tools in `.opencode/skills/` (jobbank-search, jobdanmark-search, jobindex-search, jobnet-search) are specific to the **Danish job market** (Jobbank, Jobdanmark, Jobindex, Jobnet). They demonstrate the pattern for building job portal integrations. If you're in a different country, you can build equivalent tools for your local job portals using the same structure.
 
 ### Salary benchmarking
 

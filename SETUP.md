@@ -55,7 +55,7 @@ Or manually: fork on GitHub, then clone your fork.
 
 ```bash
 for tool in jobbank-search jobdanmark-search jobindex-search jobnet-search; do
-  cd .agents/skills/$tool/cli && bun install && cd ../../../..
+  cd .opencode/skills/$tool/cli && bun install && cd ../../../..
 done
 ```
 
