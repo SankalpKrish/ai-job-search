@@ -39,7 +39,7 @@ Invoke this skill when the user wants to:
 ### Search job listings
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search [flags]
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search [flags]
 ```
 
 Key flags:
@@ -55,7 +55,7 @@ Key flags:
 ### Fetch full job detail
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts detail <id> [--format json|plain]
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts detail <id> [--format json|plain]
 ```
 
 `id` is the job ID from `search` results (e.g. `h1647303`). You may also pass the full Jobindex URL. Returns the full job description, deadline, employment type, hours, and apply link.
@@ -85,7 +85,7 @@ bun run skills/jobindex-search/cli/src/cli.ts detail <id> [--format json|plain]
 ### Find Python jobs posted in the last 7 days
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --query python \
   --jobage 7 \
   --sort date \
@@ -95,7 +95,7 @@ bun run skills/jobindex-search/cli/src/cli.ts search \
 ### Data engineer jobs in Copenhagen
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --query "data engineer københavn" \
   --sort score \
   --format table
@@ -104,7 +104,7 @@ bun run skills/jobindex-search/cli/src/cli.ts search \
 ### Graphic designer jobs — all time, by relevance
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --query "grafisk designer" \
   --limit 10 \
   --format table
@@ -113,7 +113,7 @@ bun run skills/jobindex-search/cli/src/cli.ts search \
 ### Full-stack developer jobs, page 2
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --query "full stack developer" \
   --page 2 \
   --format json
@@ -122,7 +122,7 @@ bun run skills/jobindex-search/cli/src/cli.ts search \
 ### Jobs posted today across all sectors
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --jobage 1 \
   --sort date \
   --limit 20 \
@@ -132,13 +132,13 @@ bun run skills/jobindex-search/cli/src/cli.ts search \
 ### Get full details for a specific job
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts detail h1647303 --format plain
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts detail h1647303 --format plain
 ```
 
 ### Marketing jobs in Aarhus
 
 ```bash
-bun run skills/jobindex-search/cli/src/cli.ts search \
+bun run .opencode/skills/jobindex-search/cli/src/cli.ts search \
   --query "marketing aarhus" \
   --jobage 30 \
   --sort date \

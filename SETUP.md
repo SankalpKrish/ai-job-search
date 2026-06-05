@@ -6,7 +6,13 @@ Step-by-step instructions for getting the AI Job Search framework running.
 
 ### opencode
 
-Install opencode following the instructions at https://opencode.ai. opencode is a terminal-based AI coding assistant that loads the skills, commands, and configuration in this repository.
+Install opencode with the official install script (macOS / Linux / WSL):
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+```
+
+For Windows (native) and other platforms, see the install instructions at https://opencode.ai. opencode is a terminal-based AI coding assistant that loads the skills, commands, and configuration in this repository.
 
 You'll need an API key for your model provider of choice (opencode supports multiple providers; see the [opencode docs](https://opencode.ai) for details).
 
